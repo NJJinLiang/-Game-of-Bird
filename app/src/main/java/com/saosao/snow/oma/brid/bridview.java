@@ -2,6 +2,7 @@ package com.saosao.snow.oma.brid;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.saosao.snow.newalpha.myview.brid.CallBack;
+import com.saosao.snow.oma.R;
 
 
 /**
@@ -27,6 +29,8 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
     int y = 0;
     int linex = 0;
     Bitmap mBitmap;
+    Bitmap tzhubitmp;
+    Bitmap bzhubitmp;
     boolean isOver = false;
     int type = 0;
 
@@ -40,10 +44,9 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
         paint = new Paint();
         paint.setColor(Color.BLUE);
 
-    }
-
-    public void setBitmap(Bitmap mBitmap) {
-        this.mBitmap = mBitmap;
+        mBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bird);
+        tzhubitmp = BitmapFactory.decodeResource(getResources(), R.mipmap.tzhu);
+        bzhubitmp = BitmapFactory.decodeResource(getResources(), R.mipmap.bzhu);
     }
 
     public bridview(Context context) {
@@ -99,7 +102,10 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
 //            if (mBitmap == null)
 //                canvas.drawCircle(getWidth() / 2, getHeight() / 2 + y, 100, paint);
 //            else
-                canvas.drawBitmap(mBitmap, getWidth() / 2 - 50, getHeight() / 2 + y, paint);
+            Rect rectimage = new Rect(0 ,0 ,getWidth() ,getHeight() );
+            Rect rectimage2 = new Rect(getWidth()/2-200 ,getHeight()/2-200+y ,getWidth()/2+200 ,getHeight()/2+200+y );
+            canvas.drawBitmap(mBitmap , rectimage , rectimage2, paint);
+//                canvas.drawBitmap(mBitmap, getWidth() / 2 - 50, getWidth() / 2, paint);
 
 
             onewidth = getWidth() / 7;
@@ -162,7 +168,8 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
                     rect=new Rect(onewidth * i - linex, 0, onewidth * (i + 1) - linex, line * oneheight-350);
                     rect1=new Rect(onewidth * i - linex, getHeight()-line1*(getHeight()-line * oneheight)/10, onewidth * (i + 1) - linex, getHeight());
                 }
-                canvas.drawRect(rect, paint);
+//                canvas.drawRect(rect, paint);
+                canvas.drawBitmap(tzhubitmp ,rectimage , rect,paint);
                 Region region=new Region(rect);
                 if(region.contains(getWidth() / 2 , getHeight() / 2 + y)){
                     isOver = true;
@@ -170,9 +177,10 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
                 };
 
 
-                canvas.drawRect(rect1 ,paint);
+//                canvas.drawRect(rect1 ,paint);
+                canvas.drawBitmap(bzhubitmp ,rectimage , rect1,paint);
                 Region region1=new Region(rect1);
-                if(region1.contains(getWidth() / 2 , getHeight() / 2 + y)){
+                if(region1.contains(getWidth()/2, getHeight() / 2 + y)){
                     isOver = true;
                     callBack.onOver();
                 };
@@ -202,12 +210,12 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
             callBack.onOver();
             return;
         }
-        y += 30;
+        y += 15;
         if(type ==0)
         linex += onewidth / 10;
         else
             linex += onewidth / 5;
-        handlerShow.postDelayed(this, 50);
+        handlerShow.postDelayed(this, 25);
     }
 
     @Override
@@ -215,6 +223,9 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 y -= 250;
+                if(y<-getHeight()/2){
+                    y=-getHeight()/2;
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
@@ -256,6 +267,13 @@ public class bridview extends SurfaceView implements SurfaceHolder.Callback, Run
 
     public int getLineRandom() {
         return (int) (Math.random() * 10);
+    }
+
+    /**
+     * 判断圆和矩形的碰撞
+     */
+    private void hitRect() {
+
     }
 
 }

@@ -1,17 +1,13 @@
 package com.saosao.snow.oma
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Toast
 import com.saosao.snow.newalpha.myview.brid.CallBack
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-import android.widget.AdapterView.OnItemSelectedListener
-import com.saosao.snow.oma.R.id.spinner
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -56,9 +52,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         )
-        val res = getResources()
-        val bmp = BitmapFactory.decodeResource(res, R.mipmap.bird)
-        birdview.setBitmap(bmp)
 
     }
 }
